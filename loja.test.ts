@@ -1,5 +1,6 @@
 import { Loja } from './loja';
 import { Endereco } from './endereco';
+import { Venda } from './venda';
 
 
 function verificaCampoObrigatorio(mensagemEsperada: string, loja: Loja) {
@@ -9,8 +10,6 @@ function verificaCampoObrigatorio(mensagemEsperada: string, loja: Loja) {
     expect(e.message).toBe(mensagemEsperada);
   }
 }
-
-// Todas as variáveis preenchidas
 const NOME_LOJA = "Loja 1"
 const LOGRADOURO = "Log 1"
 const NUMERO = 10
@@ -93,7 +92,8 @@ Bai 1 - Mun 1 - E1
 CEP:11111-111 Tel (11) 1111-1111
 Obs 1
 CNPJ: 11.111.111/1111-11
-IE: 123456789`
+IE: 123456789
+`;
 
 const TEXTO_ESPERADO_SEM_NUMERO_SEM_COMPLEMENTO_SEM_BAIRRO: string = `Loja 1
 Log 1, s/n
@@ -101,7 +101,8 @@ Mun 1 - E1
 CEP:11111-111 Tel (11) 1111-1111
 Obs 1
 CNPJ: 11.111.111/1111-11
-IE: 123456789`
+IE: 123456789
+`;
 
 
 test('Loja Completa', () => {
@@ -216,22 +217,28 @@ test('Número zero, complemento e bairro vazios', () => {
     .toBe(TEXTO_ESPERADO_SEM_NUMERO_SEM_COMPLEMENTO_SEM_BAIRRO);
 });
 
-
 test('Exercício 2 - customizado', () => {
 
-  // Defina seus próprios valores para as variáveis a seguir
-  let nome_loja = "";
-  let logradouro = "";
-  let numero = 0;
-  let complemento = "";
-  let bairro = "";
-  let municipio = "";
-  let estado = "";
-  let cep = "";
-  let telefone = "";
-  let observacao = "";
-  let cnpj = "";
-  let inscricao_estadual = "";
+  let nome_loja = "Magic Box";
+  let logradouro = "Baker St";
+  let numero = 221;
+  let complemento = "EDA A24/25/26";
+  let bairro = "Marylebone";
+  let municipio = "Sunnydale";
+  let estado = "CA";
+  let cep = "79297";
+  let telefone = "(213) 70374-7092";
+  let observacao = "Loja TW (BTVS)";
+  let cnpj = "98.650.809/0001-63";
+  let inscricao_estadual = "55021852-1";
+
+  let expected = "Magic Box\n";
+  expected += "Baker St, 221 EDA A24/25/26\n";
+  expected += "Marylebone - Sunnydale - CA\n";
+  expected += "CEP:79297 Tel (213) 70374-7092\n";
+  expected += "Loja TW (BTVS)\n";
+  expected += "CNPJ: 98.650.809/0001-63\n";
+  expected += "IE: 55021852-1\n";
 
   let endereco_customizado: Endereco = new Endereco(logradouro, numero,
     complemento, bairro, municipio, estado, cep);
@@ -239,8 +246,5 @@ test('Exercício 2 - customizado', () => {
   let loja_customizada: Loja = new Loja(nome_loja, endereco_customizado, telefone, observacao, cnpj,
     inscricao_estadual);
 
-  //E atualize o texto esperado abaixo
-  expect(loja_customizada.dados_loja()).toBe(
-    `
-`);
+  expect(loja_customizada.dados_loja()).toBe(expected);
 });
